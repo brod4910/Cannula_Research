@@ -154,14 +154,14 @@ def test_epoch(model, test_loader, device):
             # sum up batch loss
             test_loss += F.mse_loss(output, target).item()
             # get the percentage difference between each value
-            pred = ((output - target) / (torch.abs(target))) * 100.0
+            pred = (torch.abs((target - output)) / (torch.abs(target))) * 100.0
             # if the prediction has a 10% margin of error then its correct
-            correct += pred.le(.1).sum().item()
+            correct += pred.le(10).sum().item()
 
     test_loss /= len(test_loader.dataset)
     accuracy = 100. * correct / len(test_loader.dataset)
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'
-          .format(test_loss, correct, len(test_loader.dataset),
+          .format(test_loss, correct/2, len(test_loader.dataset),
                   100. * correct / len(test_loader.dataset)))
 
     return test_loss, accuracy
