@@ -29,6 +29,4 @@ class CannulaDataset(Dataset):
             image = torch.from_numpy(image)
             image = self.transform(image)
 
-        image = image.type(torch.FloatTensor)
-
         return image, label
