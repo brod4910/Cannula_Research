@@ -17,7 +17,7 @@ class Model(nn.Module):
             input.requires_grad = True
             input = checkpoint_sequential(self.feature_layers, 2, input)
         else:
-            input = self.feature_layers(input)
+            input = self.feature_layers(x)
 
         input = input.view(input.size(0), -1)
         input = self.classifier(input)
