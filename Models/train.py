@@ -93,7 +93,7 @@ def train(args, model, device, checkpoint):
 
     print("\nUsing optimizer: %s" % (args.optimizer))
 
-    if args.loss_fn == 'MSELoss'
+    if args.loss_fn == 'MSELoss':
         criterion = torch.nn.MSELoss().cuda() if device == "cuda" else torch.nn.MSELoss()
 
     # either take the minimum loss then reduce LR or take max of accuracy then reduce LR
