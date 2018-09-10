@@ -24,7 +24,8 @@ def train(args, model, device, checkpoint):
             transforms.Normalize(0.016813556, 0.012097757)            
             ])
 
-    print("\nImages resized to %d x %d" % (args.resize, args.resize))
+    if args.resize is not None:
+        print("\nImages resized to %d x %d" % (args.resize, args.resize))
 
     # create both training and testing datasets
     train_dataset = CannulaDataset.CannulaDataset(

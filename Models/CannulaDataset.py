@@ -9,9 +9,9 @@ from torchvision import transforms, utils
 from PIL import Image
 
 class CannulaDataset(Dataset):
-    def __init__(self, input_file, target_file, root_dir, data_length, transform= None):
-        self.inputs = np.load(os.path.join(root_dir, input_file))
-        self.targets = np.load(os.path.join(root_dir, target_file))
+    def __init__(self, input_file, target_file, root_dir, transform= None):
+        self.inputs = np.load(os.path.join(root_dir, input_file + ".npy"))
+        self.targets = np.load(os.path.join(root_dir, target_file + ".npy"))
         self.root_dir = root_dir
         self.transform = transform
 
