@@ -11,7 +11,7 @@ from PIL import Image
 class CannulaDataset(Dataset):
     def __init__(self, input_file, target_file, root_dir, transform= None):
         self.inputs = np.load(os.path.join(root_dir, input_file))
-        self.inputs = np.expand_dims(input, 3)
+        self.inputs = np.expand_dims(inputs, 3)
         self.targets = np.load(os.path.join(root_dir, target_file))
         self.root_dir = root_dir
         self.transform = transform
@@ -25,7 +25,7 @@ class CannulaDataset(Dataset):
         label = self.targets[idx]
 
         if self.transform is not None:
-            image = np.transpose(image,(2,0,1))
+            image = np.transpose(image, (2,0,1))
             image = torch.from_numpy(image)
             image = self.transform(image)
 
