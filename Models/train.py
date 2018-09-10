@@ -13,26 +13,7 @@ import CannulaDataset
 def train(args, model, device, checkpoint):
 
     # Data transformations
-    if args.hflip is True and args.vflip is False:
-        data_transform = transforms.Compose([
-            transforms.Resize((args.resize, args.resize)),
-            transforms.RandomHorizontalFlip(),
-            transforms.ToTensor()
-            ])
-    elif args.vflip is True and args.hflip is False:
-        data_transform = transforms.Compose([
-            transforms.Resize((args.resize, args.resize)),
-            transforms.RandomVerticalFlip(),
-            transforms.ToTensor()
-            ])
-    elif args.vflip is True and args.hflip is True:
-        data_transform = transforms.Compose([
-            transforms.Resize((args.resize, args.resize)),
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomVerticalFlip(),
-            transforms.ToTensor()
-            ])
-    elif args.resize is not None:
+    if args.resize is not None:
         data_transform = transforms.Compose([
             transforms.Resize((args.resize, args.resize)),
             transforms.ToTensor()            
