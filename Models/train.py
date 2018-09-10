@@ -125,7 +125,7 @@ def train_epoch(epoch, args, model, optimizer, criterion, train_loader, device):
         
         input, target = input.to(device), target.to(device)
 
-        output = model(input)
+        output = model(input).type(torch.cuda.FloatTensor)
         loss = criterion(output, target)
 
         optimizer.zero_grad()
