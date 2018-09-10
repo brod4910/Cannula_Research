@@ -36,7 +36,7 @@ def make_layers(layout):
                 kernel_size= (layer[3][0], layer[3][1]), stride= layer[4], dilation= layer[5], padding= layer[6])
             if layer[6] == 'ReLU_NoB2d':
                 layers += [conv2d, nn.ReLU(inplace= True)]
-            elif layer[6] == 'ReLU'
+            elif layer[6] == 'ReLU':
                 layers += [conv2d, nn.BatchNorm2d(layer[2]), nn.ReLU(inplace= True)]
             elif layer[6] == 'PReLU':
                 layers += [conv2d, nn.BatchNorm2d(layer[2]), nn.PReLU(inplace= True)]
@@ -69,7 +69,7 @@ def make_classifier_layers(layout):
             layers+= [nn.AlphaDropout(layer[1])]
         elif layer[0] == 'FC_NoTanh':
             layers += [nn.Linear(layer[1], layer[2])]
-        elif layer[0] == 'FC_Tanh'
+        elif layer[0] == 'FC_Tanh':
             layers += [nn.Linear(layer[1], layer[2]), nn.Tanh()]
 
     return nn.Sequential(*layers)
