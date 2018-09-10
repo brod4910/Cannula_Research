@@ -25,6 +25,8 @@ class CannulaDataset(Dataset):
         label = self.targets[idx]
 
         if self.transform is not None:
+            image = np.transpose(image,(2,0,1))
+            image = torch.from_numpy(image)
             image = self.transform(image)
 
         image = image.type(torch.FloatTensor)
