@@ -20,7 +20,7 @@ def train(args, model, device, checkpoint):
             ])
     else:
         data_transform = transforms.Compose([
-            transforms.Normalize(0.016813556, 0.012097757)            
+            transforms.Normalize((0.016813556), (0.012097757))
             ])
 
     if args.resize is not None:
