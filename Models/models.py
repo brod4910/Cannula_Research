@@ -7,7 +7,7 @@
 # Alpha Dropout : ['AD', probability]
 # Classifying layer: ['FC', in_features, num_classes]
 # Possible Activation Fns: 'ReLU', 'PReLU', 'SELU', 'LeakyReLU', 'None'->(Contains no Batch Norm for dimensionality reduction 1x1 kernels)
-# srun python main.py --batch-size 16 --epochs 50 --lr 0.001 --momentum .9 --log-interval 100 --resize 240 --root-dir ../ --train-csv ../data_csv/0_9_train.csv --test-csv ../data_csv/0_9_test.csv
+# srun python main.py --batch-size 16 --epochs 50 --lr 0.001 --momentum .9 --log-interval 100 --root-dir ../ --train-input-file ../clipped_training_data --train-target-file ../clipped_training_targets --test-input-file ../clipped_test_data --test-target-file ../clipped_test_targets
 
 # The calculations below are constrained to stride of 1
 # padding of 2 for 3x3 dilated convolution of 2 for same input/output image size
