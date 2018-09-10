@@ -39,20 +39,23 @@ def train(args, model, device, checkpoint):
             ])
     else:
         data_transform = transforms.Compose([
-            transforms.ToTensor()            
+            transforms.ToTensor(),
+            transforms.Normalize(0.016813556, 0.012097757)            
             ])
 
     print("\nImages resized to %d x %d" % (args.resize, args.resize))
 
     # create both training and testing datasets
     train_dataset = CannulaDataset.CannulaDataset(
-        csv_file= args.train_csv,
+        input_file= args.train_input_file,
+        target_file= args.train_target_file,
         root_dir= args.root_dir,
         transform= data_transform
         )
 
     test_dataset = CannulaDataset.CannulaDataset(
-        csv_file= args.test_csv,
+        input_file= args.test_input_file,
+        target_file= args.test_target_file,
         root_dir= args.root_dir,
         transform= data_transform
         )
@@ -169,8 +172,9 @@ def test_epoch(model, test_loader, device):
             output = model(input)
             # sum up batch loss
             test_loss += F.mse_loss(output, target).item()
-            # get the index of the max log-probability
+            # get the percentage difference between each value
             pred = ((output - target) / (torch.abs(target))) * 100.0
+            # if the prediction has a 10% margin of error then its correct
             correct += pred.le(.1).sum().item()
 
     test_loss /= len(test_loader.dataset)

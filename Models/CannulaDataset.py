@@ -9,19 +9,19 @@ from torchvision import transforms, utils
 from PIL import Image
 
 class CannulaDataset(Dataset):
-    def __init__(self, csv_file, root_dir, transform= None):
-        self.csv_data = pd.read_csv(csv_file)
+    def __init__(self, input_file, target_file, root_dir, data_length, transform= None):
+        self.inputs = np.load(os.path.join(root_dir, input_file))
+        self.targets = np.load(os.path.join(root_dir, target_file))
         self.root_dir = root_dir
         self.transform = transform
 
     def __len__(self):
-        return len(self.csv_data)
+        return len(self.inputs)
 
     def __getitem__(self, idx):
-        img_name = os.path.join(self.root_dir, self.csv_data.iloc[idx, 0])
 
-        image = Image.open(img_name)
-        label = self.csv_data.iloc[idx, 1]
+        image = self.inputs[idx]
+        label = self.targets[idx]
 
         if self.transform is not None:
             image = self.transform(image)

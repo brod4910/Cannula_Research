@@ -36,9 +36,13 @@ def CreateArgsParser():
                     help= 'Type of optimizer to use. Options: SGD, AdaG, AdaD, Adam, RMS')
     parser.add_argument('--root-dir', required= True,  
                     help='root directory where enclosing image files are located')
-    parser.add_argument('--train-csv', required= True, 
+    parser.add_argument('--train-input_file', required= True, 
                     help='path to the location of the training csv')
-    parser.add_argument('--test-csv', required= True, 
+    parser.add_argument('--train-target_file', required= True, 
+                    help='path to the location of the training csv')
+    parser.add_argument('--test-input-file', required= True, 
+                    help='path to the location of the test csv')
+    parser.add_argument('--test-target-file', required= True, 
                     help='path to the location of the test csv')
     parser.add_argument('--resume', default= None, 
                     help='file to load checkpoint from')
