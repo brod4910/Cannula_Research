@@ -156,12 +156,13 @@ def test_epoch(model, test_loader, device):
             # get the percentage difference between each value
             pred = (torch.abs((target - output)) / (torch.abs(target))) * 100.0
             # if the prediction has a 10% margin of error then its correct
-            correct += pred.le(10).sum().item()
+            pred = torch.sum(pred.le(15), 1)
+            correct += torch.sum(pred.eq(2)).item()
 
     test_loss /= len(test_loader.dataset)
     accuracy = 100. * correct / len(test_loader.dataset)
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'
-          .format(test_loss, correct/2, len(test_loader.dataset),
+          .format(test_loss, correct, len(test_loader.dataset),
                   100. * correct / len(test_loader.dataset)))
 
     return test_loss, accuracy
