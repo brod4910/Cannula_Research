@@ -47,8 +47,8 @@ def CreateArgsParser():
     parser.add_argument('--resume', default= None, 
                     help='file to load checkpoint from')
     parser.add_argument('--start-epoch', type=int, default=1)
-    parser.add_argument('--loss-fn', default='MSELoss',
-                    help='Loss funciton to be used: MSELoss,')
+    parser.add_argument('--loss-fn', default='EDLoss',
+                    help='Loss funciton to be used: EDLoss, MSELoss')
 
     return parser
 

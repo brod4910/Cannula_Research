@@ -9,6 +9,7 @@ import time
 import sys
 import shutil
 import CannulaDataset
+import EuclideanDistanceLoss
 import matplotlib.pyplot as plt
 %matplotlib inline
 
@@ -78,6 +79,8 @@ def train(args, model, device, checkpoint):
 
     if args.loss_fn == 'MSELoss':
         criterion = torch.nn.MSELoss().cuda() if device == "cuda" else torch.nn.MSELoss()
+    elif args.loss_fn == 'EDLoss':
+        criterion = EuclideanDistanceLoss.EuclideanDistanceLoss().cuda() if device == "cuda" else EuclideanDistanceLoss.EuclideanDistanceLoss()
 
     # either take the minimum loss then reduce LR or take max of accuracy then reduce LR
     if args.plateau == 'loss':
@@ -153,25 +156,26 @@ def test_epoch(model, test_loader, device):
             input, target = input.to(device), target.type(torch.FloatTensor).to(device)
 
             output = model(input)
-            # sum up batch loss
-            test_loss += F.mse_loss(output, target).item()
-            # get the percentage difference between each value
+            # Calculate the Ec_DLoss
+            test_loss += EuclideanDistanceLoss.ed_loss(output, target).item()
+            ed_output_tensor = EuclideanDistanceLoss.ed_tesnor(output, target)
             # pred = (torch.abs((target - output)) / (torch.abs(target))) * 100.0
             # if the prediction has a 10% margin of error then its correct
             # pred = torch.sum(pred.le(15), 1)
             # correct += torch.sum(pred.eq(2)).item()
             if batch_idx % args.log_interval == 0:
-                plt.plot(output[:,0], output[:,1], 'go', label = 'NN Output', alpha = .5)
-                plt.plot(target[:,0], target[:,1], 'go', label = 'Expected Output', alpha = .5)
-                for i in range(len(output)):
-                    plt.annotate('%d' % i, output[i], textcoords='data')
-                    plt.annotate('%d' % i, target[i], textcoords='data')
+                print("Per coordinate Euclidean Distance: ", ed_output_tensor)
+            #     plt.plot(output[:,0], output[:,1], 'go', label = 'NN Output', alpha = .5)
+            #     plt.plot(target[:,0], target[:,1], 'go', label = 'Expected Output', alpha = .5)
+            #     for i in range(len(output)):
+            #         plt.annotate('%d' % i, output[i], textcoords='data')
+            #         plt.annotate('%d' % i, target[i], textcoords='data')
 
-    test_loss /= len(test_loader.dataset)
-    accuracy = 100. * correct / len(test_loader.dataset)
-    print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'
-          .format(test_loss, correct, len(test_loader.dataset),
-                  100. * correct / len(test_loader.dataset)))
+    # test_loss /= len(test_loader.dataset)
+    # accuracy = 100. * correct / len(test_loader.dataset)
+    # print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'
+    #       .format(test_loss, correct, len(test_loader.dataset),
+    #               100. * correct / len(test_loader.dataset)))
 
     return test_loss, accuracy
 
