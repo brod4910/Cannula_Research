@@ -9,6 +9,8 @@ import time
 import sys
 import shutil
 import CannulaDataset
+import matplotlib.pyplot as plt
+%matplotlib inline
 
 def train(args, model, device, checkpoint):
 
@@ -154,10 +156,16 @@ def test_epoch(model, test_loader, device):
             # sum up batch loss
             test_loss += F.mse_loss(output, target).item()
             # get the percentage difference between each value
-            pred = (torch.abs((target - output)) / (torch.abs(target))) * 100.0
+            # pred = (torch.abs((target - output)) / (torch.abs(target))) * 100.0
             # if the prediction has a 10% margin of error then its correct
-            pred = torch.sum(pred.le(15), 1)
-            correct += torch.sum(pred.eq(2)).item()
+            # pred = torch.sum(pred.le(15), 1)
+            # correct += torch.sum(pred.eq(2)).item()
+            if batch_idx % args.log_interval == 0:
+                plt.plot(output[:,0], output[:,1], 'go', label = 'NN Output', alpha = .5)
+                plt.plot(target[:,0], target[:,1], 'go', label = 'Expected Output', alpha = .5)
+                for i in range(len(output)):
+                    plt.annotate('%d' % i, output[i], textcoords='data')
+                    plt.annotate('%d' % i, target[i], textcoords='data')
 
     test_loss /= len(test_loader.dataset)
     accuracy = 100. * correct / len(test_loader.dataset)
