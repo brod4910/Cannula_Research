@@ -98,7 +98,7 @@ def train(args, model, device, checkpoint):
     total_time = time.clock()
     for epoch in range(args.start_epoch, args.epochs + 1):
         train_epoch(epoch, args, model, optimizer, criterion, train_loader, device)
-        test_loss, accuracy = test_epoch(model, test_loader, device)
+        test_loss, accuracy = test_epoch(model, test_loader, device, args)
 
         if args.plateau == 'loss':
             scheduler.step(test_loss)
@@ -142,7 +142,7 @@ def train_epoch(epoch, args, model, optimizer, criterion, train_loader, device):
                 epoch, batch_idx * len(input), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.item()))
 
-def test_epoch(model, test_loader, device):
+def test_epoch(model, test_loader, device, args):
     model.eval()
     test_loss = 0
     accuracy = 0
