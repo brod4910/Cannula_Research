@@ -142,6 +142,8 @@ def train_epoch(epoch, args, model, optimizer, criterion, train_loader, device):
                 epoch, batch_idx * len(input), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.item()))
 
+    print('')
+
 def test_epoch(model, test_loader, device, args):
     model.eval()
     test_loss = 0
@@ -156,13 +158,12 @@ def test_epoch(model, test_loader, device, args):
 
             output = model(input)
 
-            if batch_idx % args.log_interval == 0:
-                for pred, ex in zip(output, target):
-                    print('pred: {:.8f}, {:.8f} expec: {:.8f}, {:.8f} \n'.format(pred[0].item(), pred[1].item(), ex[0].item(), ex[1].item()))
+            for pred, ex in zip(output, target):
+                print('pred: {:.8f}, {:.8f} expec: {:.8f}, {:.8f} \n'.format(pred[0].item(), pred[1].item(), ex[0].item(), ex[1].item()))
             # Calculate the RMSE loss
             test_loss += RMSELoss.rmse_loss(output, target).item()
 
-    test_loss /= len(test_loader.dataset)
+    test_loss /= len(test_loader.dataset/args.batch_size)
     print("RMSE Test Loss: ", test_loss)
     # accuracy = 100. * correct / len(test_loader.dataset)
     # print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'
