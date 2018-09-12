@@ -30,5 +30,6 @@ feature_layers = {
 }
 
 classifier_layers = {
-	'1': [['L', 256 * 1 * 1, 1092, activation], ['D', .5], ['FC_NoTanh', 1092, 2]]
+	'1': [['L', 256 * 1 * 1, 1092, activation], ['D', .5], ['FC_NoTanh', 1092, 2]],
+	'1.5': [['L', 256 * 1 * 1, 1092, activation], ['D', .5], ['FC_Tanh', 1092, 2]]
 }

@@ -63,7 +63,7 @@ def main():
         cudnn.benchmark = True
 
     network = make_model.Model(make_model.make_layers(models.feature_layers['1']), 
-        make_model.make_classifier_layers(models.classifier_layers['1']))
+        make_model.make_classifier_layers(models.classifier_layers['1.5']))
 
     # if args.architecture == 'deep':
     #     network = make_model.Model(make_model.make_layers(models.feature_layers['2.5.5'], checkpoint= True), 
