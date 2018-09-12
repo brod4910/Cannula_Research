@@ -170,7 +170,8 @@ def test_epoch(model, test_loader, device, args):
             #         plt.annotate('%d' % i, output[i], textcoords='data')
             #         plt.annotate('%d' % i, target[i], textcoords='data')
 
-    # test_loss /= len(test_loader.dataset)
+    test_loss /= len(test_loader.dataset)
+    print("Euclidean Test Loss: ", test_loss)
     # accuracy = 100. * correct / len(test_loader.dataset)
     # print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'
     #       .format(test_loss, correct, len(test_loader.dataset),
