@@ -157,7 +157,7 @@ def test_epoch(model, test_loader, device):
             output = model(input)
             # Calculate the Ec_DLoss
             test_loss += EuclideanDistanceLoss.ed_loss(output, target).item()
-            ed_output_tensor = EuclideanDistanceLoss.ed_tesnor(output, target)
+            ed_output_tensor = EuclideanDistanceLoss.ed_tensor(output, target)
             # pred = (torch.abs((target - output)) / (torch.abs(target))) * 100.0
             # if the prediction has a 10% margin of error then its correct
             # pred = torch.sum(pred.le(15), 1)
