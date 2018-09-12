@@ -11,7 +11,6 @@ import shutil
 import CannulaDataset
 import EuclideanDistanceLoss
 import matplotlib.pyplot as plt
-%matplotlib inline
 
 def train(args, model, device, checkpoint):
 
