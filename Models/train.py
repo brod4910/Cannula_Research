@@ -163,14 +163,14 @@ def test_epoch(model, test_loader, device, args):
             # pred = torch.sum(pred.le(15), 1)
             # correct += torch.sum(pred.eq(2)).item()
             if batch_idx % args.log_interval == 0:
-                print("Per coordinate Euclidean Distance: ", ed_output_tensor)
+                print("Per coordinate Euclidean Distance: \n", ed_output_tensor)
             #     plt.plot(output[:,0], output[:,1], 'go', label = 'NN Output', alpha = .5)
             #     plt.plot(target[:,0], target[:,1], 'go', label = 'Expected Output', alpha = .5)
             #     for i in range(len(output)):
             #         plt.annotate('%d' % i, output[i], textcoords='data')
             #         plt.annotate('%d' % i, target[i], textcoords='data')
 
-    test_loss /= len(test_loader.dataset)
+    test_loss /= (len(test_loader.dataset)/args.batch_size)
     print("Euclidean Test Loss: ", test_loss)
     # accuracy = 100. * correct / len(test_loader.dataset)
     # print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'
