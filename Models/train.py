@@ -163,7 +163,7 @@ def test_epoch(model, test_loader, device, args):
             # Calculate the RMSE loss
             test_loss += RMSELoss.rmse_loss(output, target).item()
 
-    test_loss /= len(test_loader.dataset/args.batch_size)
+    test_loss /= (len(test_loader.dataset) / args.batch_size)
     print("RMSE Test Loss: ", test_loss)
     # accuracy = 100. * correct / len(test_loader.dataset)
     # print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'

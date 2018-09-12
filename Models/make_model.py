@@ -44,6 +44,14 @@ def make_layers(layout):
                 layers += [conv2d, nn.BatchNorm2d(layer[2]), nn.SELU(inplace= True)]
             elif layer[6] == 'LeakyReLU':
                 layers += [conv2d, nn.BatchNorm2d(layer[2]), nn.LeakyReLU(inplace= True)]
+            elif layer[6] == 'Sigmoid':
+                layers += [conv2d, nn.BatchNorm2d(layer[2]), nn.Sigmoid()]
+            elif layer[6] == 'Sigmoid_NoB2d':
+                layers += [conv2d, nn.Sigmoid()]
+            elif layer[6] == 'Tanh':
+                layers += [conv2d, nn.BatchNorm2d(layer[2]), nn.Tanh()]
+            elif layer[6] == 'Tanh_NoB2d':
+                layers += [conv2d, nn.Tanh()]
             else:
                 layers += [conv2d]
 
@@ -63,11 +71,13 @@ def make_classifier_layers(layout):
                 layers += [nn.Linear(layer[1], layer[2]), nn.BatchNorm1d(layer[2]), nn.SELU(inplace= True)]
             elif layer[3] == 'LeakyReLU':
                 layers += [nn.Linear(layer[1], layer[2]), nn.BatchNorm1d(layer[2]), nn.LeakyReLU(inplace= True)]
+            elif layer[0] == 'Tanh_NoB2d':
+                layers += [nn.Linear(layer[1], layer[2]), nn.Tanh()]
         elif layer[0] == 'D':
             layers += [nn.Dropout(layer[1])]
         elif layer[0] == 'AD':
             layers+= [nn.AlphaDropout(layer[1])]
-        elif layer[0] == 'FC_NoTanh':
+        elif layer[0] == 'FC':
             layers += [nn.Linear(layer[1], layer[2])]
         elif layer[0] == 'FC_Tanh':
             layers += [nn.Linear(layer[1], layer[2]), nn.Tanh()]
