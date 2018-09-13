@@ -20,7 +20,7 @@
 # padding of 9 for 7x7 dilated convolution of 3
 
 feature_activation = 'Tanh'
-classifier_activation = 'Tanh_NoB2d'
+classifier_activation = 'Tanh'
 
 feature_layers = {
 	'1': [['C', 1, 128, (3,3), 1, 1, 1, feature_activation], ['C', 128, 392, (3,3), 1, 1, 1, feature_activation], ['C', 392, 256, (3,3), 1, 1, 1, feature_activation], ['C', 256, 192, (3,3), 1, 1, 1, feature_activation], ['C', 192, 256, (3,3), 1, 2, 2, feature_activation], ['M', (2,2), 2, 0],

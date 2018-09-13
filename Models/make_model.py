@@ -71,7 +71,7 @@ def make_classifier_layers(layout):
                 layers += [nn.Linear(layer[1], layer[2]), nn.BatchNorm1d(layer[2]), nn.SELU(inplace= True)]
             elif layer[3] == 'LeakyReLU':
                 layers += [nn.Linear(layer[1], layer[2]), nn.BatchNorm1d(layer[2]), nn.LeakyReLU(inplace= True)]
-            elif layer[0] == 'Tanh_NoB2d':
+            elif layer[0] == 'Tanh':
                 layers += [nn.Linear(layer[1], layer[2]), nn.Tanh()]
         elif layer[0] == 'D':
             layers += [nn.Dropout(layer[1])]
@@ -79,8 +79,8 @@ def make_classifier_layers(layout):
             layers+= [nn.AlphaDropout(layer[1])]
         elif layer[0] == 'FC':
             layers += [nn.Linear(layer[1], layer[2])]
-        elif layer[0] == 'FC_Tanh':
-            layers += [nn.Linear(layer[1], layer[2]), nn.Tanh()]
+        # elif layer[0] == 'FC_Tanh':
+        #     layers += [nn.Linear(layer[1], layer[2]), nn.Tanh()]
 
     return nn.Sequential(*layers)
 
