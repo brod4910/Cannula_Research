@@ -19,8 +19,8 @@
 # padding of 6 for 7x7 dilated convolution of 2 for same input/output image size
 # padding of 9 for 7x7 dilated convolution of 3
 
-feature_activation = 'Tanh'
-classifier_activation = 'Tanh'
+feature_activation = 'ReLU'
+classifier_activation = 'ReLU'
 
 feature_layers = {
 	'None': [],
@@ -35,14 +35,19 @@ feature_layers = {
 		 ['C', 32, 24, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
 		 ['C', 24, 48, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]],
 
-	'4': [['C', 1, 192, (3,3), 1, 1, 1, feature_activation], ['M', (3,3), 2, 1],
-		 ['C', 192, 64, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]],
+ 	'2.5': [['C', 1, 32, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
+		 ['C', 32, 24, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
+		 ['C', 24, 48, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]],
+
+	'4': [['C', 1, 16, (3,3), 1, 1, 1, feature_activation], ['M', (3,3), 2, 1],
+		 ['C', 16, 32, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]],
 }
 
 classifier_layers = {
 	'1': [['L', 256 * 1 * 1, 1092, classifier_activation], ['D', .5], ['FC', 1092, 2]],
 	'1.5': [['L', 256 * 1 * 1, 1092, classifier_activation], ['D', .5], ['FC_Tanh', 1092, 2]],
 	'2': [['L', 48 * 16 * 16, 192, classifier_activation], ['D', .5], ['FC', 192, 2]],
+	'2.5': [['L', 48 * 16 * 16, 192, classifier_activation], ['D', .5], ['FC', 192, 2]],
 	'3': [['L', 1 * 128 * 128, 192, classifier_activation], ['D', .5], ['FC', 192, 2]],
 	'4': [['L', 64 * 32 * 32, 392, classifier_activation], ['D', .8], ['FC', 392, 2]]
 }

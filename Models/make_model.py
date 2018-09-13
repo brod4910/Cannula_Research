@@ -11,7 +11,7 @@ class Model(nn.Module):
             self.feature_layers = feature_layers
         else:
             self.feature_layers = None
-            
+
         self.classifier = classifier
         self.checkpoint = checkpoint
 
@@ -81,8 +81,10 @@ def make_classifier_layers(layout):
                 layers += [nn.Linear(layer[1], layer[2]), nn.BatchNorm1d(layer[2]), nn.SELU(inplace= True)]
             elif layer[3] == 'LeakyReLU':
                 layers += [nn.Linear(layer[1], layer[2]), nn.BatchNorm1d(layer[2]), nn.LeakyReLU(inplace= True)]
-            elif layer[3] == 'Tanh':
+            elif layer[3] == 'Tanh_NoB2d':
                 layers += [nn.Linear(layer[1], layer[2]), nn.Tanh()]
+            elif layer[3] == 'Tanh':
+                layers += [nn.Linear(layer[1], layer[2]), nn.BatchNorm1d(layer[2]) ,nn.Tanh()]
         elif layer[0] == 'D':
             layers += [nn.Dropout(layer[1])]
         elif layer[0] == 'AD':

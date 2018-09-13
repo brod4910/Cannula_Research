@@ -24,9 +24,10 @@ class CannulaDataset(Dataset):
         image = self.inputs[idx]
         label = self.targets[idx]
 
+        image = np.transpose(image, (2,0,1))
+        image = torch.from_numpy(image)
+        
         if self.transform is not None:
-            image = np.transpose(image, (2,0,1))
-            image = torch.from_numpy(image)
             image = self.transform(image)
 
         return image, label
