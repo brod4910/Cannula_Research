@@ -62,16 +62,11 @@ def main():
     if use_cuda is True:
         cudnn.benchmark = True
 
-    network = make_model.Model(make_model.make_layers(models.feature_layers['2']), 
-        make_model.make_classifier_layers(models.classifier_layers['2']))
+    # Create the network
+    network = make_model.Model(make_model.make_layers(models.feature_layers['None']), 
+        make_model.make_classifier_layers(models.classifier_layers['3']))
 
-    # if args.architecture == 'deep':
-    #     network = make_model.Model(make_model.make_layers(models.feature_layers['2.5.5'], checkpoint= True), 
-    #         make_model.make_classifier_layers(models.classifier_layers['2.5']), checkpoint= True)
-    # elif args.architecture == 'wide':
-    #     network = make_wide_model.Wide_Model(make_wide_model.make_wide_layers(wide_models.feature_layers['1']), 
-    #         make_wide_model.make_classifier_layers(wide_models.classifier_layers['1.5']), device)
-
+    # reload the checkpoint if needed
     if args.resume is not None:
         if os.path.isfile(args.resume):
             print("=> loading checkpoint '{}'".format(args.resume))

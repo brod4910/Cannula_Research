@@ -7,9 +7,10 @@ class Model(nn.Module):
 
     def __init__(self, feature_layers, classifier, checkpoint= False):
         super(Model, self).__init__()
-        self.checkpoint = checkpoint
-        self.feature_layers = feature_layers
+        if feature_layers is not None:
+            self.feature_layers = feature_layers
         self.classifier = classifier
+        self.checkpoint = checkpoint
 
     def forward(self, x):
         if self.checkpoint is True:
@@ -17,7 +18,10 @@ class Model(nn.Module):
             input.requires_grad = True
             input = checkpoint_sequential(self.feature_layers, 2, input)
         else:
-            input = self.feature_layers(x)
+            if self.feature_layers is not None:
+                input = self.feature_layers(x)
+            else:
+                input = x
 
         input = input.view(input.size(0), -1)
         input = self.classifier(input)
@@ -25,6 +29,9 @@ class Model(nn.Module):
 
 def make_layers(layout):
     layers = []
+
+    if len(layout) == 0:
+        return None
 
     for layer in layout:
         if layer[0] == 'A':
@@ -71,7 +78,7 @@ def make_classifier_layers(layout):
                 layers += [nn.Linear(layer[1], layer[2]), nn.BatchNorm1d(layer[2]), nn.SELU(inplace= True)]
             elif layer[3] == 'LeakyReLU':
                 layers += [nn.Linear(layer[1], layer[2]), nn.BatchNorm1d(layer[2]), nn.LeakyReLU(inplace= True)]
-            elif layer[3] == 'Tanh':
+            elif layer[] == 'Tanh':
                 layers += [nn.Linear(layer[1], layer[2]), nn.Tanh()]
         elif layer[0] == 'D':
             layers += [nn.Dropout(layer[1])]

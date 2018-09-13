@@ -23,6 +23,8 @@ feature_activation = 'Tanh'
 classifier_activation = 'Tanh'
 
 feature_layers = {
+	'None': [],
+
 	'1': [['C', 1, 128, (3,3), 1, 1, 1, feature_activation], ['C', 128, 392, (3,3), 1, 1, 1, feature_activation], ['C', 392, 256, (3,3), 1, 1, 1, feature_activation], ['C', 256, 192, (3,3), 1, 1, 1, feature_activation], ['C', 192, 256, (3,3), 1, 2, 2, feature_activation], ['M', (2,2), 2, 0],
 		 ['C', 256, 392, (3,3), 1, 1, 1, feature_activation], ['C', 392, 256, (3,3), 1, 1, 1, feature_activation], ['C', 256, 192, (3,3), 1, 1, 1, feature_activation], ['C', 192, 256, (5,5), 1, 2, 4, feature_activation], ['M', (3,3), 2, 1],
 		 ['C', 256, 392, (3,3), 1, 1, 1, feature_activation], ['C', 392, 256, (3,3), 1, 1, 1, feature_activation], ['C', 256, 192, (3,3), 1, 1, 1, feature_activation], ['C', 192, 256, (7,7), 1, 2, 6, feature_activation], ['M', (5,5), 2, 1],
@@ -38,6 +40,7 @@ classifier_layers = {
 	'1': [['L', 256 * 1 * 1, 1092, classifier_activation], ['D', .5], ['FC', 1092, 2]],
 	'1.5': [['L', 256 * 1 * 1, 1092, classifier_activation], ['D', .5], ['FC_Tanh', 1092, 2]],
 	'2': [['L', 48 * 16 * 16, 192, classifier_activation], ['D', .5], ['FC', 192, 2]],
+	'3': [['L', 1 * 128 * 128, 192, classifier_activation], ['D', .5], ['FC', 192, 2]]
 }
 
 
