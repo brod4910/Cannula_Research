@@ -63,8 +63,8 @@ def main():
         cudnn.benchmark = True
 
     # Create the network
-    network = make_model.Model(make_model.make_layers(models.feature_layers['None']), 
-        make_model.make_classifier_layers(models.classifier_layers['3']))
+    network = make_model.Model(make_model.make_layers(models.feature_layers['4']), 
+        make_model.make_classifier_layers(models.classifier_layers['4']))
 
     # reload the checkpoint if needed
     if args.resume is not None:
