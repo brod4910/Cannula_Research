@@ -77,9 +77,9 @@ def train(args, model, device, checkpoint):
 
     print("\nUsing optimizer: %s" % (args.optimizer))
 
-    if args.loss_fn == 'MSELoss':
+    if args.loss_fn == 'MSE':
         criterion = torch.nn.MSELoss().cuda() if device == "cuda" else torch.nn.MSELoss()
-    elif args.loss_fn == 'RMSELoss':
+    elif args.loss_fn == 'RMSE':
         criterion = RMSELoss.RMSELoss().cuda() if device == "cuda" else RMSELoss.RMSELoss()
 
     # either take the minimum loss then reduce LR or take max of accuracy then reduce LR
@@ -162,10 +162,13 @@ def test_epoch(model, test_loader, device, args):
             for pred, ex in zip(output, target):
                 print('pred: {:.8f}, {:.8f} expec: {:.8f}, {:.8f} \n'.format(pred[0].item(), pred[1].item(), ex[0].item(), ex[1].item()))
             # Calculate the RMSE loss
-            test_loss += RMSELoss.rmse_loss(output, target).item()
+            if args.loss_fn == 'MSELoss':
+                test_loss += F.mse_loss(output, target).item()
+            elif args.loss_fn == 'RMSELoss':
+                test_loss += RMSELoss.rmse_loss(output, target).item()
 
     test_loss /= (len(test_loader.dataset))
-    print("RMSE Test Loss: ", test_loss)
+    print(args.loss_fn, "Test Loss: ", test_loss)
     # accuracy = 100. * correct / len(test_loader.dataset)
     # print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'
     #       .format(test_loss, correct, len(test_loader.dataset),

@@ -47,8 +47,8 @@ def CreateArgsParser():
     parser.add_argument('--resume', default= None, 
                     help='file to load checkpoint from')
     parser.add_argument('--start-epoch', type=int, default=1)
-    parser.add_argument('--loss-fn', default='RMSELoss',
-                    help='Loss funciton to be used: RMSELoss, MSELoss')
+    parser.add_argument('--loss-fn', default='RMSE',
+                    help='Loss funciton to be used: RMSE, MSE')
     parser.add_argument('--f-layers', required= True, default=None,
                     help='Feature layers to be used during training. List of feature layers are in models.py.')
     parser.add_argument('--c-layers', required= True, default=None,
