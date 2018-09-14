@@ -49,7 +49,10 @@ def CreateArgsParser():
     parser.add_argument('--start-epoch', type=int, default=1)
     parser.add_argument('--loss-fn', default='RMSELoss',
                     help='Loss funciton to be used: RMSELoss, MSELoss')
-
+    parser.add_argument('--f-layers', required= True, default=None,
+                    help='Feature layers to be used during training. List of feature layers are in models.py.')
+    parser.add_argument('--c-layers', required= True, default=None,
+                    help='Classifying layers to be used during training. List of classifier layers are in models.py.')
     return parser
 
 def main():
@@ -63,8 +66,11 @@ def main():
         cudnn.benchmark = True
 
     # Create the network
-    network = make_model.Model(make_model.make_layers(models.feature_layers['4']), 
-        make_model.make_classifier_layers(models.classifier_layers['4']))
+    network = make_model.Model(make_model.make_layers(models.feature_layers[args.f_layers]), 
+        make_model.make_classifier_layers(models.classifier_layers[args.c_layers]))
+
+    print("Using feature layers:", args.f_layers)
+    print("Using classifying layers:", args.c_layers)
 
     # reload the checkpoint if needed
     if args.resume is not None:

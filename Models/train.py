@@ -70,7 +70,7 @@ def train(args, model, device, checkpoint):
     elif args.optimizer == 'RMS':
         optimizer = optim.RMSprop(model.parameters(), lr=args.lr, alpha=0.99, eps=1e-08, weight_decay= 0 if args.weight_decay is None else args.weight_decay, momentum=args.momentum, centered=False)
     elif args.optimizer == 'Adam':
-        optimizer = optim.Adam(model.parameters(), lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, amsgrad=False)
+        optimizer = optim.Adam(model.parameters(), lr=args.lr, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, amsgrad=False)
 
     if checkpoint is not None:
         optimizer.load_state_dict(checkpoint['optimizer'])
