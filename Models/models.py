@@ -49,11 +49,15 @@ feature_layers = {
 	'5.5': [['C', 1, 16, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
 		 ['C', 16, 32, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
 		 ['C', 32, 64, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]],
+
+	'6': [['C', 1, 8, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
+		 ['C', 8, 16, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
+		 ['C', 16, 24, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]],	 
 }
 
 classifier_layers = {
 	'1': [['L', 256 * 1 * 1, 1092, classifier_activation], ['D', .5], ['FC', 1092, 2]],
-	
+
 	'1.5': [['L', 256 * 1 * 1, 1092, classifier_activation], ['D', .5], ['FC_Tanh', 1092, 2]],
 
 	'2': [['L', 48 * 16 * 16, 192, classifier_activation], ['D', .5], ['FC', 192, 2]],
@@ -69,6 +73,11 @@ classifier_layers = {
 	'5.5': [['L', 64 * 16 * 16, 500, classifier_activation], ['D', .5], 
 		['L', 500, 100, classifier_activation], ['D', .25], 
 		['L', 100, 20, classifier_activation], ['FC', 20, 2]],
+
+	'6': [['L', 24 * 16 * 16, 224, classifier_activation], ['D', .5], 
+		['L', 224, 392, classifier_activation], ['D', .25], 
+		['L', 392, 72, classifier_activation], ['D', .1],
+		['FC', 72, 2]],
 
 }
 
