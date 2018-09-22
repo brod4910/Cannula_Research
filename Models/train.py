@@ -162,13 +162,13 @@ def test_epoch(model, test_loader, device, args):
             for pred, ex in zip(output, target):
                 print('pred: {:.8f}, {:.8f} expec: {:.8f}, {:.8f} \n'.format(pred[0].item(), pred[1].item(), ex[0].item(), ex[1].item()))
             # Calculate the RMSE loss
-            if args.loss_fn == 'MSELoss':
+            if args.loss_fn == 'MSE':
                 test_loss += F.mse_loss(output, target).item()
-            elif args.loss_fn == 'RMSELoss':
+            elif args.loss_fn == 'RMSE':
                 test_loss += RMSELoss.rmse_loss(output, target).item()
 
     test_loss /= (len(test_loader.dataset))
-    print(args.loss_fn, "Test Loss: ", test_loss)
+    print('{} Test Loss: {:.6f}'.format(args.loss_fn, test_loss))
     # accuracy = 100. * correct / len(test_loader.dataset)
     # print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'
     #       .format(test_loss, correct, len(test_loader.dataset),
