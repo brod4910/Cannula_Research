@@ -44,9 +44,9 @@ def CreateArgsParser():
     #                 help='path to the location of the test csv')
     # parser.add_argument('--test-target-file', required= True, 
     #                 help='path to the location of the test csv')
-    parser.add_argument('--test', required= True, 
+    parser.add_argument('--inputs', required= True, 
                     help='path to the location of the test csv')
-    parser.add_argument('--train', required= True, 
+    parser.add_argument('--targets', required= True, 
                     help='path to the location of the test csv')
     parser.add_argument('--resume', default= None, 
                     help='file to load checkpoint from')
