@@ -9,14 +9,10 @@ from torchvision import transforms, utils
 from PIL import Image
 
 class CannulaDataset(Dataset):
-    def __init__(self, input_file, target_file, root_dir, transform= None):
-        self.root_dir = root_dir
-        self.inputs = np.load(os.path.join(root_dir, input_file))
-        self.inputs = np.expand_dims(self.inputs, 3)
-        self.targets = np.load(os.path.join(root_dir, target_file))
+    def __init__(self, inputs, targets, kfold, transform= None):
+        self.inputs = inputs[kfold]
+        self.targets = targets[kfold]
         self.transform = transform
-        kfold = kFold(inputs, targets)
-
 
     def __len__(self):
         return len(self.inputs)
@@ -35,13 +31,6 @@ class CannulaDataset(Dataset):
         return image, label
 
 
-def kFold(inputs, targets):
-        kfold = KFold(5, True, 11)
-        idxs = []
 
-        for train, test in enumerate(kfold.split(self.inputs, self.targets)):
-            idxs.append([train, test])
-
-        return idxs
 
 

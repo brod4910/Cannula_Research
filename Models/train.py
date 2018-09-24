@@ -9,7 +9,6 @@ import time
 import sys
 import shutil
 import CannulaDataset
-import CannulaDatasetKFold
 import RMSELoss
 import numpy as np
 
@@ -31,40 +30,25 @@ def train(args, model, device, checkpoint):
         print("\nImages resized to %d x %d" % (args.resize, args.resize))
 
     # load the data for k-folds
-
     inputs = np.load(os.path.join(args.root_dir, args.inputs))
     inputs = np.expand_dims(inputs, 3)
     targets = np.load(os.path.join(args.root_dir, args.targets))
     kfold = kFold(inputs, targets)
 
-    train_dataset = CannulaDatasetKFold.CannulaDataset(
+    train_dataset = CannulaDataset.CannulaDataset(
         inputs, 
         targets, 
         kfold[0][1][0], 
         transform= data_transform
         )
 
-    test_dataset = CannulaDatasetKFold.CannulaDataset(
+    test_dataset = CannulaDataset.CannulaDataset(
         inputs, 
         targets, 
         kfold[0][1][1], 
         transform= data_transform
         )
 
-    # create both training and testing datasets
-    # train_dataset = CannulaDataset.CannulaDataset(
-    #     input_file= args.train_input_file,
-    #     target_file= args.train_target_file,
-    #     root_dir= args.root_dir,
-    #     transform= data_transform
-    #     )
-
-    # test_dataset = CannulaDataset.CannulaDataset(
-    #     input_file= args.test_input_file,
-    #     target_file= args.test_target_file,
-    #     root_dir= args.root_dir,
-    #     transform= data_transform
-    #     )
     # use the torch dataloader class to enumerate over the data during training
     train_loader = torch.utils.data.DataLoader(
         train_dataset, 
@@ -190,7 +174,7 @@ def test_epoch(model, test_loader, device, args):
                 test_loss += RMSELoss.rmse_loss(output, target).item()
 
     test_loss /= (len(test_loader.dataset))
-    print('{} Test Loss: {:.6f}'.format(args.loss_fn, test_loss))
+    print('{} Test Loss: {:.7f}'.format(args.loss_fn, test_loss))
     # accuracy = 100. * correct / len(test_loader.dataset)
     # print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'
     #       .format(test_loss, correct, len(test_loader.dataset),
