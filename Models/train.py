@@ -154,8 +154,10 @@ def train_epoch(epoch, args, model, optimizer, criterion, train_loader, device):
 def test_epoch(model, test_loader, device, args):
     model.eval()
     test_loss = 0
-    accuracy = 0
-    correct = 0
+    accuracy1 = 0
+    accuracy4 = 0
+    correct1 = 0
+    correct4 = 0
 
     # validate the model over the test set and record no gradient history
     with torch.no_grad():
@@ -165,8 +167,20 @@ def test_epoch(model, test_loader, device, args):
 
             output = model(input)
 
+            # print the predictions and expected values
             for pred, ex in zip(output, target):
                 print('pred: {:.8f}, {:.8f} expec: {:.8f}, {:.8f} \n'.format(pred[0].item(), pred[1].item(), ex[0].item(), ex[1].item()))
+
+            # calculate the correctness of the prediction within a 1 and 4 pixel range
+            pred = output - target
+
+            for p in pred:
+                if (p >= -.0625).all() and(p <= .0625).all():
+                    correct4 += 1
+                if (p >= -.015625).all() and(p <= .015625).all():
+                    correct1 += 1
+
+
             # Calculate the RMSE loss
             if args.loss_fn == 'MSE':
                 test_loss += F.mse_loss(output, target).item()
@@ -174,8 +188,11 @@ def test_epoch(model, test_loader, device, args):
                 test_loss += RMSELoss.rmse_loss(output, target).item()
 
     test_loss /= (len(test_loader.dataset))
-    print('{} Test Loss: {:.7f}'.format(args.loss_fn, test_loss))
-    # accuracy = 100. * correct / len(test_loader.dataset)
+    accuracy1 = 100. * correct1 / len(test_loader.dataset)
+    accuracy4 = 100. * correct4 / len(test_loader.dataset)
+    print('{} Test Loss: {:.7f}, Accuracy 4-pixels: {}/{} ({:.3f}%), Accuracy 1-pixel: {}/{} ({:.3f}%) \n'
+        .format(args.loss_fn, test_loss, correct4, len(test_loader.dataset), accuracy4,
+            correct1, len(test_loader.dataset), accuracy1))
     # print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'
     #       .format(test_loss, correct, len(test_loader.dataset),
     #               100. * correct / len(test_loader.dataset)))
