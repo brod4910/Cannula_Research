@@ -10,7 +10,6 @@ from PIL import Image
 
 class CannulaDataset(Dataset):
     def __init__(self, inputs, targets, kfold, transform= None):
-        self.root_dir = root_dir
         self.inputs = inputs[kfold]
         self.targets = targets[kfold]
         self.transform = transform

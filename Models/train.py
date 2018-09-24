@@ -40,14 +40,14 @@ def train(args, model, device, checkpoint):
     train_dataset = CannulaDatasetKFold.CannulaDataset(
         inputs, 
         targets, 
-        kfold[0][0], 
+        kfold[0][1][0], 
         transform= data_transform
         )
 
     test_dataset = CannulaDatasetKFold.CannulaDataset(
         inputs, 
         targets, 
-        kfold[0][1], 
+        kfold[0][1][1], 
         transform= data_transform
         )
 
@@ -209,6 +209,6 @@ def kFold(inputs, targets):
         idxs = []
 
         for train, test in enumerate(kfold.split(inputs, targets)):
-            idxs.append([train, test])
+            idxs.append((train, test))
 
         return idxs
