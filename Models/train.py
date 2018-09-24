@@ -9,6 +9,7 @@ import time
 import sys
 import shutil
 import CannulaDataset
+import CannulaDatasetKFold
 import RMSELoss
 import matplotlib.pyplot as plt
 
@@ -29,20 +30,41 @@ def train(args, model, device, checkpoint):
     if args.resize is not None:
         print("\nImages resized to %d x %d" % (args.resize, args.resize))
 
-    # create both training and testing datasets
-    train_dataset = CannulaDataset.CannulaDataset(
-        input_file= args.train_input_file,
-        target_file= args.train_target_file,
-        root_dir= args.root_dir,
+    # load the data for k-folds
+
+    inputs = np.load(os.path.join(args.root_dir, args.input_file))
+    inputs = np.expand_dims(inputs, 3)
+    targets = np.load(os.path.join(args.root_dir, args.target_file))
+    kfold = kFold(inputs, targets)
+
+    train_dataset = CannulaDatasetKFold.CannulaDataset(
+        inputs, 
+        targets, 
+        kfold[0][0], 
         transform= data_transform
         )
 
-    test_dataset = CannulaDataset.CannulaDataset(
-        input_file= args.test_input_file,
-        target_file= args.test_target_file,
-        root_dir= args.root_dir,
+    test_dataset = CannulaDatasetKFold.CannulaDataset(
+        inputs, 
+        targets, 
+        kfold[0][1], 
         transform= data_transform
         )
+
+    # create both training and testing datasets
+    # train_dataset = CannulaDataset.CannulaDataset(
+    #     input_file= args.train_input_file,
+    #     target_file= args.train_target_file,
+    #     root_dir= args.root_dir,
+    #     transform= data_transform
+    #     )
+
+    # test_dataset = CannulaDataset.CannulaDataset(
+    #     input_file= args.test_input_file,
+    #     target_file= args.test_target_file,
+    #     root_dir= args.root_dir,
+    #     transform= data_transform
+    #     )
     # use the torch dataloader class to enumerate over the data during training
     train_loader = torch.utils.data.DataLoader(
         train_dataset, 
@@ -181,3 +203,12 @@ def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
     torch.save(state, filename)
     if is_best:
         shutil.copyfile(filename, 'model_best.pth.tar')
+
+def kFold(inputs, targets):
+        kfold = KFold(5, True, 11)
+        idxs = []
+
+        for train, test in enumerate(kfold.split(inputs, targets)):
+            idxs.append([train, test])
+
+        return idxs

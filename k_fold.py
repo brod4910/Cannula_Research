@@ -9,10 +9,10 @@ from torchvision import transforms, utils
 from PIL import Image
 from sklearn.model_selection import KFold
 
-[self.inputs = np.load(os.path.join(root_dir, input_file))
+self.inputs = np.load(os.path.join(root_dir, input_file))
 self.inputs = np.expand_dims(self.inputs, 3)
 self.targets = np.load(os.path.join(root_dir, target_file))
-self.root_dir = root_dir]
+self.root_dir = root_dir
 
 kfold = KFold(4, True, 11)
 
