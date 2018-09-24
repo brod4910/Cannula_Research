@@ -3,7 +3,6 @@ import os
 import torch
 import pandas as pd
 from skimage import io, transform
-from sklearn.model_selection import KFold
 import numpy as np
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils

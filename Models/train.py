@@ -2,8 +2,8 @@ import os
 import torch
 import torch.optim as optim
 import torch.nn.functional as F
-from torch.autograd import Variable
 from torchvision import datasets, transforms
+from sklearn.model_selection import KFold
 import torch.backends.cudnn as cudnn
 import time
 import sys
@@ -11,7 +11,7 @@ import shutil
 import CannulaDataset
 import CannulaDatasetKFold
 import RMSELoss
-import matplotlib.pyplot as plt
+import numpy as np
 
 def train(args, model, device, checkpoint):
 
@@ -32,9 +32,9 @@ def train(args, model, device, checkpoint):
 
     # load the data for k-folds
 
-    inputs = np.load(os.path.join(args.root_dir, args.input_file))
+    inputs = np.load(os.path.join(args.root_dir, args.inputs))
     inputs = np.expand_dims(inputs, 3)
-    targets = np.load(os.path.join(args.root_dir, args.target_file))
+    targets = np.load(os.path.join(args.root_dir, args.targets))
     kfold = kFold(inputs, targets)
 
     train_dataset = CannulaDatasetKFold.CannulaDataset(
