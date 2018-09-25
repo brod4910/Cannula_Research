@@ -55,9 +55,9 @@ feature_layers = {
 		 ['C', 16, 24, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]],
 
 	'7': [['C', 1, 8, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
-		 ['C', 8, 16, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 3, 1],
+		 ['C', 8, 16, (3,3), 1, 1, 1, feature_activation], ['M', (3,3), 2, 1],
 		 ['C', 16, 24, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
-		 ['C', 24, 36, (3,3), 1, 1, 1, feature_activation], ['A', (8,8), 1, 0]], 
+		 ['C', 24, 36, (3,3), 1, 1, 1, feature_activation], ['A', (16,16), 1, 0]], 
 }
 
 classifier_layers = {
