@@ -175,11 +175,10 @@ def test_epoch(model, test_loader, device, args):
             pred = output - target
 
             for p in pred:
-                if (p >= -.0625).all() and(p <= .0625).all():
+                if (p >= -.0625).all() and (p <= .0625).all():
                     correct4 += 1
-                if (p >= -.015625).all() and(p <= .015625).all():
+                if (p >= -.015625).all() and (p <= .015625).all():
                     correct1 += 1
-
 
             # Calculate the RMSE loss
             if args.loss_fn == 'MSE':
@@ -193,11 +192,8 @@ def test_epoch(model, test_loader, device, args):
     print('{} Test Loss: {:.7f}, Accuracy 4-pixels: {}/{} ({:.3f}%), Accuracy 1-pixel: {}/{} ({:.3f}%) \n'
         .format(args.loss_fn, test_loss, correct4, len(test_loader.dataset), accuracy4,
             correct1, len(test_loader.dataset), accuracy1))
-    # print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'
-    #       .format(test_loss, correct, len(test_loader.dataset),
-    #               100. * correct / len(test_loader.dataset)))
 
-    return test_loss, accuracy
+    return test_loss, accuracy1
 
 # Saves the model as a checkpoint
 def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):

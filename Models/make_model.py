@@ -64,6 +64,10 @@ def make_layers(layout):
                 layers += [conv2d, nn.Tanh()]
             else:
                 layers += [conv2d]
+        elif layer[0] == 'D2d':
+            layers += [nn.Dropout2d(layer[1])]
+        elif layer[0] == 'D':
+            layers += [nn.Dropout(layer[1])]
 
     return nn.Sequential(*layers)
 
