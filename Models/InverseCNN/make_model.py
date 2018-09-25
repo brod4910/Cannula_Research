@@ -18,7 +18,24 @@ class Model(nn.Module):
 		filters = []
 		input = x.detach()
         input.requires_grad = True
-        
-		for idx, layer in enumerate(feature_layers.children()):
+
+        # enumerate over the layers and save any convolutional layer's output
+		for __, layer in enumerate(self.feature_layers.children()):
+			input = layer(input)
+			
 			if isinstance(layer, nn.Conv2d):
-				input
+				filters += input
+
+        idx = len(filters) - 1
+		# enumerate over the layers and use saved filters plus previous layers output as
+		# input to next convolutional layer. The filters are connected to its respective
+		# convolutional layer in a U-shaped fashion
+		for __, layer in enumerate(self.inverse_layers.children()):
+			if isinstance(layer, nn.Conv2d):
+				input = layer(torch.cat([input, filters[idx]], 1))
+				idx -= 1
+			else:
+				input = layer(input)
+
+		return input
+
