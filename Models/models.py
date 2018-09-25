@@ -54,9 +54,9 @@ feature_layers = {
 		 ['C', 8, 16, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
 		 ['C', 16, 24, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]],
 
- 	'6.5': [['C', 1, 8, (3,3), 1, 1, 1, feature_activation], ['D2d', .5], ['M', (2,2), 2, 0],
+ 	'6.5': [['C', 1, 8, (3,3), 1, 1, 1, feature_activation], ['D2d', .2], ['M', (2,2), 2, 0],
 		 ['C', 8, 16, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
-		 ['C', 16, 24, (3,3), 1, 1, 1, feature_activation], ['D2d', .3], ['M', (2,2), 2, 0]],
+		 ['C', 16, 24, (3,3), 1, 1, 1, feature_activation], ['D2d', .1], ['M', (2,2), 2, 0]],
 
 	'7': [['C', 1, 16, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
 		 ['C', 16, 32, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]], 
