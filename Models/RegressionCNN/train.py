@@ -159,6 +159,12 @@ def test_epoch(model, test_loader, device, args):
     correct1 = 0
     correct4 = 0
 
+    correct4_list = []
+    correct1_list = []
+
+    target4_list = []
+    target1_list = []
+
     # validate the model over the test set and record no gradient history
     with torch.no_grad():
         for batch_idx, (input, target) in enumerate(test_loader):
@@ -168,23 +174,49 @@ def test_epoch(model, test_loader, device, args):
             output = model(input)
 
             # print the predictions and expected values
-            for pred, ex in zip(output, target):
-                print('pred: {:.8f}, {:.8f} expec: {:.8f}, {:.8f} \n'.format(pred[0].item(), pred[1].item(), ex[0].item(), ex[1].item()))
+            # for pred, ex in zip(output, target):
+            #     print('pred: {:.8f}, {:.8f} expec: {:.8f}, {:.8f} \n'.format(pred[0].item(), pred[1].item(), ex[0].item(), ex[1].item()))
 
             # calculate the correctness of the prediction within a 1 and 4 pixel range
-            pred = output - target
+            pred = target - output
 
-            for p in pred:
+            # enumerate over the predictions and check if they are within a range
+            # add the correct outputs of the net to a list and the targets
+            for idx, p in enumerate(pred):
                 if (p >= -.0625).all() and (p <= .0625).all():
                     correct4 += 1
+                    correct4_list.append(output[idx])
+                    target4_list.append(target[idx])
+
                 if (p >= -.015625).all() and (p <= .015625).all():
                     correct1 += 1
+                    correct1_list.append(output[idx])
+                    target1_list.append(target[idx])
 
+            # dirty way of iterating over the lists and printing their contents
+            print("Predictions correct within 4-pixels")
+            for corr4, tar4 in zip(correct4_list, target4_list):
+                pred4 = tar4 - corr4
+                print("prediction : {:.8f}, {:.8f} target: {:.8f}, {:.8f}".format(corr4[0].item(), corr4[1].item(), tar4[0].item(), tar4[1].item()))
+                print("difference between the two points: {:.8f}, {:.8f}\n".format(pred4[0].item(), pred4[1].item()))
+
+            print("Predictions correct within 1-pixel")
+            for corr1, tar1 in zip(correct1_list, target1_list):
+                pred1 = tar1 - corr1
+                print("prediction : {:.8f}, {:.8f} target: {:.8f}, {:.8f}\n".format(corr1[0].item(), corr1[1].item(), tar1[0].item(), tar1[1].item()))
+                print("difference between the two points: {:.8f}, {:.8f}\n".format(pred1[0].item(), pred1[1].item()))
+                
             # Calculate the RMSE loss
             if args.loss_fn == 'MSE':
                 test_loss += F.mse_loss(output, target).item()
             elif args.loss_fn == 'RMSE':
                 test_loss += RMSELoss.rmse_loss(output, target).item()
+
+            # clear the lists for the next iteration
+            correct4_list.clear()
+            correct1_list.clear()
+            target1_list.clear()
+            target4_list.clear()
 
     test_loss /= (len(test_loader.dataset))
     accuracy1 = 100. * correct1 / len(test_loader.dataset)
