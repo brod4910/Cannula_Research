@@ -194,18 +194,22 @@ def test_epoch(model, test_loader, device, args):
                     target1_list.append(target[idx])
 
             # dirty way of iterating over the lists and printing their contents
-            print("Predictions correct within 4-pixels")
+            print("Predictions correct within 4-pixels\n")
             for corr4, tar4 in zip(correct4_list, target4_list):
                 pred4 = tar4 - corr4
                 print("prediction : {:.8f}, {:.8f} target: {:.8f}, {:.8f}".format(corr4[0].item(), corr4[1].item(), tar4[0].item(), tar4[1].item()))
                 print("difference between the two points: {:.8f}, {:.8f}\n".format(pred4[0].item(), pred4[1].item()))
 
-            print("Predictions correct within 1-pixel")
+
+            print("Predictions correct within 1-pixel\n")
             for corr1, tar1 in zip(correct1_list, target1_list):
                 pred1 = tar1 - corr1
-                print("prediction : {:.8f}, {:.8f} target: {:.8f}, {:.8f}\n".format(corr1[0].item(), corr1[1].item(), tar1[0].item(), tar1[1].item()))
+                print("prediction : {:.8f}, {:.8f} target: {:.8f}, {:.8f}".format(corr1[0].item(), corr1[1].item(), tar1[0].item(), tar1[1].item()))
                 print("difference between the two points: {:.8f}, {:.8f}\n".format(pred1[0].item(), pred1[1].item()))
-                
+
+            print("Correct number of predictions in this batch with a 4-pixel range: {}/{} \n", len(correct4_list), args.batch_size)
+            print("Correct number of predictions in this batch with a 1-pixel range: {}/{} \n", len(correct1_list), args.batch_size)
+
             # Calculate the RMSE loss
             if args.loss_fn == 'MSE':
                 test_loss += F.mse_loss(output, target).item()
