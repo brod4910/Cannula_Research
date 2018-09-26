@@ -66,7 +66,7 @@ def main():
         cudnn.benchmark = True
 
     # Create the network
-    network = make_model.Model(make_model.make_layers(models.feature_layers[args.f_layers]), 
+    network = model.Model(make_model.make_layers(models.feature_layers[args.f_layers]), 
         make_model.make_classifier_layers(models.classifier_layers[args.c_layers]))
 
     print("Using feature layers:", args.f_layers)
