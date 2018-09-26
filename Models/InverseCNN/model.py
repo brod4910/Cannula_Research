@@ -34,8 +34,10 @@ class Model(nn.Module):
 		# input to next convolutional layer. The filters are connected to its respective
 		# convolutional layer in a U-shaped fashion
 		for __, layer in enumerate(self.inverse_layers.children()):
-			if isinstance(layer, nn.Conv2d):
+			if isinstance(layer, nn.ConvTranspose2d):
 				input = layer(torch.cat([input, filters.pop(-1)], 1))
+			elif isinstance(layer, nn.MaxUnpool2d):
+				input = layer(pooling_modules.pop(-1))
 			else:
 				input = layer(input)
 

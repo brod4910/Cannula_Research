@@ -1,10 +1,14 @@
-import os
-import sys
+# ugly importing of make_model. Not recommended for any other circumstance
+import os,sys,inspect
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
+import make_model
 import argparse
 import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
-import make_model
+import model
 import models
 from train import train
 
