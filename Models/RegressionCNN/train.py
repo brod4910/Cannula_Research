@@ -207,8 +207,8 @@ def test_epoch(model, test_loader, device, args):
                 print("prediction : {:.8f}, {:.8f} target: {:.8f}, {:.8f}".format(corr1[0].item(), corr1[1].item(), tar1[0].item(), tar1[1].item()))
                 print("difference between the two points: {:.8f}, {:.8f}\n".format(pred1[0].item(), pred1[1].item()))
 
-            print("Correct number of predictions in this batch with a 4-pixel range: {}/{} \n", len(correct4_list), args.batch_size)
-            print("Correct number of predictions in this batch with a 1-pixel range: {}/{} \n", len(correct1_list), args.batch_size)
+            print("Correct number of predictions in this batch with a 4-pixel range: {}/{} \n".format(len(correct4_list), args.batch_size))
+            print("Correct number of predictions in this batch with a 1-pixel range: {}/{} \n".format(len(correct1_list), args.batch_size))
 
             # Calculate the RMSE loss
             if args.loss_fn == 'MSE':
