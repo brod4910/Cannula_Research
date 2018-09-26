@@ -97,6 +97,11 @@ classifier_layers = {
 
 	'8': [['L', 224 * 16 * 16, 554, classifier_activation], ['D', .4], 
 		['L', 554, 110, classifier_activation], ['D', .2], 
+		['FC', 110, 2]],
+
+	'8': [['L', 224 * 16 * 16, 554, classifier_activation], ['D', .5], 
+		['L', 554, 224, classifier_activation], ['D', .25],
+		['L', 224, 110, classifier_activation], ['D', .1], 
 		['FC', 110, 2]]
 
 }

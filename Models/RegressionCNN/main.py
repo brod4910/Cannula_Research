@@ -72,6 +72,8 @@ def main():
     print("Using feature layers:", args.f_layers)
     print("Using classifying layers:", args.c_layers)
 
+    print("\nLearning rate: ", args.lr)
+
     # reload the checkpoint if needed
     if args.resume is not None:
         if os.path.isfile(args.resume):
