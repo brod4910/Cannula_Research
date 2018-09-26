@@ -16,26 +16,29 @@ class Model(nn.Module):
 
 	def forward(self, x):
 		filters = []
+		pooling_modules = []
 		input = x.detach()
         input.requires_grad = True
 
-        # enumerate over the layers and save any convolutional layer's output
+        # enumerate over the layers and save any convolutional layer's 
+        # output and maxpooling output
 		for __, layer in enumerate(self.feature_layers.children()):
 			input = layer(input)
-			
+
 			if isinstance(layer, nn.Conv2d):
 				filters += input
+			if isinstance(layer, nn.MaxPool2d):
+				pooling_modules += input
 
-        idx = len(filters) - 1
 		# enumerate over the layers and use saved filters plus previous layers output as
 		# input to next convolutional layer. The filters are connected to its respective
 		# convolutional layer in a U-shaped fashion
 		for __, layer in enumerate(self.inverse_layers.children()):
 			if isinstance(layer, nn.Conv2d):
-				input = layer(torch.cat([input, filters[idx]], 1))
-				idx -= 1
+				input = layer(torch.cat([input, filters.pop(-1)], 1))
 			else:
 				input = layer(input)
 
 		return input
+
 

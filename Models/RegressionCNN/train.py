@@ -90,7 +90,7 @@ def train(args, model, device, checkpoint):
 
     # either take the minimum loss then reduce LR or take max of accuracy then reduce LR
     if args.plateau == 'loss':
-        scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode= 'min', verbose= True, patience= 10)
+        scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode= 'min', verbose= True, patience= 8)
     elif args.plateau == 'accuracy':
         scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode= 'max', verbose= True, patience= 6)
 

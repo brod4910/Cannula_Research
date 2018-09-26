@@ -64,6 +64,11 @@ def make_layers(layout):
                 layers += [conv2d, nn.Tanh()]
             else:
                 layers += [conv2d]
+        elif layer[0] == 'CTrans':
+            conv2d = nn.ConvTranspose2d(in_channels= layer[1], out_channels= layer[2], 
+                kernel_size= (layer[3][0], layer[3][1]), stride= layer[4], dilation= layer[5], padding= layer[6])
+        elif layer[0] == 'MUnP'
+            layers += [nn.MaxUnpool2d(kernel_size= (layer[1][0], layer[1][1]), stride= layer[2], padding= layer[3])]
         elif layer[0] == 'D2d':
             layers += [nn.Dropout2d(layer[1])]
         elif layer[0] == 'D':
