@@ -101,7 +101,7 @@ classifier_layers = {
 
 	'8.1': [['L', 224 * 16 * 16, 554, classifier_activation], ['D', .6], 
 		['L', 554, 110, classifier_activation], ['D', .3], 
-		['FC', 110, 2]]
+		['FC', 110, 2]],
 
 	'8.5': [['L', 224 * 16 * 16, 554, classifier_activation], ['D', .5], 
 		['L', 554, 224, classifier_activation], ['D', .25],
