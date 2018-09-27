@@ -4,6 +4,7 @@
 # Average Pooling: ['A', (kernel), stride, padding]
 # Linear Layer: ['L', in_features, out_features, Activation Function]
 # Dropout : ['D', probability]
+# Dropout 2D : ['D2d', propability]
 # Alpha Dropout : ['AD', probability]
 # Classifying layer: ['FC', in_features, num_classes]
 # Possible Activation Fns: 'ReLU', 'PReLU', 'SELU', 'LeakyReLU', 'None'->(Contains no Batch Norm for dimensionality reduction 1x1 kernels)
@@ -67,7 +68,11 @@ feature_layers = {
 
 	'9': [['C', 1, 64, (3,3), 1, 1, 1, feature_activation], ['C', 64, 128, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
 		 ['C', 128, 192, (3,3), 1, 1, 1, feature_activation], ['C', 192, 224, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
-		 ['C', 224, 256, (3,3), 1, 1, 1, feature_activation], ['C', 256, 292, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]]
+		 ['C', 224, 256, (3,3), 1, 1, 1, feature_activation], ['C', 256, 292, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]],
+
+	'10': [['C', 1, 128, (3,3), 1, 1, 1, feature_activation], ['C', 128, 192, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
+		 ['C', 192, 224, (3,3), 1, 1, 1, feature_activation], ['C', 224, 256, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
+		 ['C', 256, 292, (3,3), 1, 1, 1, feature_activation], ['C', 292, 352, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]]
 }
 
 classifier_layers = {
@@ -112,8 +117,13 @@ classifier_layers = {
 		['L', 224, 110, classifier_activation], ['D', .1], 
 		['FC', 110, 2]],
 
-	'9': [['L', 256 * 16 * 16, 554, classifier_activation], ['D', .1], 
+	'9': [['L', 292 * 16 * 16, 554, classifier_activation], ['D', .1], 
 		['L', 554, 110, classifier_activation], ['D', .1], 
+		['FC', 110, 2]],
+
+	'10': [['L', 352 * 16 * 16, 554, classifier_activation], ['D', .3], 
+		['L', 554, 224, classifier_activation], ['D', .2],
+		['L', 224, 110, classifier_activation], ['D', .2], 
 		['FC', 110, 2]]	
 }
 
