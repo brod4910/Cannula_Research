@@ -122,9 +122,13 @@ classifier_layers = {
 		['FC', 110, 2]],
 
 
-	'9.1': [['L', 292 * 16 * 16, 554, classifier_activation], ['D', .1], 
+	'9.1': [['L', 292 * 16 * 16, 664, classifier_activation], ['D', .1], 
 		['L', 664, 224, classifier_activation], ['D', .1], 
 		['FC', 224, 2]],
+
+	'9.2': [['L', 292 * 16 * 16, 772, classifier_activation], ['D', .1], 
+		['L', 772, 492, classifier_activation], ['D', .1], 
+		['FC', 492, 2]],
 
 	'10': [['L', 352 * 16 * 16, 554, classifier_activation], ['D', .3], 
 		['L', 554, 224, classifier_activation], ['D', .2],
