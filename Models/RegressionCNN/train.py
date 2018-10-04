@@ -72,7 +72,7 @@ def train(args, model, device, checkpoint):
     elif args.optimizer == 'AdaG':
         optimizer = optim.Adagrad(model.parameters(), lr=0.01, lr_decay=0, weight_decay=0, initial_accumulator_value=0)
     elif args.optimizer == 'AdaD':
-        optimizer = optim.Adadelta(model.parameters(), lr=1.0, rho=0.9, eps=1e-06, weight_decay=0)
+        optimizer = optim.Adadelta(model.parameters(), lr=1.0, rho=0.95, eps=1e-06, weight_decay=0)
     elif args.optimizer == 'RMS':
         optimizer = optim.RMSprop(model.parameters(), lr=args.lr, alpha=0.99, eps=1e-08, weight_decay= 0 if args.weight_decay is None else args.weight_decay, momentum=args.momentum, centered=False)
     elif args.optimizer == 'Adam':
@@ -149,6 +149,8 @@ def train_epoch(epoch, args, model, optimizer, criterion, train_loader, device):
                 epoch, batch_idx * len(input), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.item()))
 
+        del input, target, output
+
     print('')
 
 def test_epoch(model, test_loader, device, args):
@@ -221,6 +223,8 @@ def test_epoch(model, test_loader, device, args):
             correct1_list.clear()
             target1_list.clear()
             target4_list.clear()
+
+            del input, target, output
 
     test_loss /= (len(test_loader.dataset))
     accuracy1 = 100. * correct1 / len(test_loader.dataset)
