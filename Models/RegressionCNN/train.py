@@ -11,6 +11,7 @@ import shutil
 import CannulaDataset
 import RMSELoss
 import numpy as np
+from cyclic_lr_scheduler import CyclicLR
 
 def train(args, model, device, checkpoint):
 
@@ -92,7 +93,9 @@ def train(args, model, device, checkpoint):
     if args.plateau == 'loss':
         scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode= 'min', verbose= True, patience= 8)
     elif args.plateau == 'accuracy':
-        scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode= 'max', verbose= True, patience= 6)
+        scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode= 'max', verbose= True, patience= 8)
+    elif args.plateau == 'cyclic':
+        scheduler = CyclicLR(optimizer, base_lr=0.0001, max_lr=0.01, step_size=10, mode='triangle')
 
     print("\nReducing learning rate on %s plateau\n" % (args.plateau))
 
