@@ -86,6 +86,11 @@ feature_layers = {
 		 ['C', 128, 192, (3,3), 1, 1, 1, feature_activation], ['C', 192, 224, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
 		 ['C', 224, 256, (3,3), 1, 1, 1, feature_activation], ['C', 256, 292, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0],
 		 ['C', 292, 334, (3,3), 1, 1, 1, feature_activation], ['C', 334, 392, (3,3), 1, 1, 1, feature_activation], ['M', (2,2), 2, 0]],
+	
+	'13': [['C', 1, 64, (3,3), 1, 1, 1, feature_activation], ['C', 64, 128, (3,3), 1, 1, 1, feature_activation], 
+		['M', (2,2), 2, 0], ['C', 128, 64, (1,1), 1, 0, feature_activation], ['C', 64, 192, (3,3), 1, 1, 1, feature_activation], ['C', 192, 224, (3,3), 1, 1, 1, feature_activation],
+		['M', (2,2), 2, 0], ['C', 224, 128, (1,1), 1, 0, feature_activation], ['C', 128, 256, (3,3), 1, 1, 1, feature_activation], ['C', 256, 292, (3,3), 1, 1, 1, feature_activation],
+		['M', (2,2), 2, 0]],
 
 }
 

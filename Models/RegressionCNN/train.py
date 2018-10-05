@@ -11,7 +11,6 @@ import shutil
 import CannulaDataset
 import RMSELoss
 import numpy as np
-from cyclic_lr_scheduler import CyclicLR
 
 def train(args, model, device, checkpoint):
 
@@ -73,7 +72,7 @@ def train(args, model, device, checkpoint):
     elif args.optimizer == 'AdaG':
         optimizer = optim.Adagrad(model.parameters(), lr=0.01, lr_decay=0, weight_decay=0, initial_accumulator_value=0)
     elif args.optimizer == 'AdaD':
-        optimizer = optim.Adadelta(model.parameters(), lr=1.0, rho=0.95, eps=1e-06, weight_decay=0)
+        optimizer = optim.Adadelta(model.parameters(), lr=1.0, rho=0.9, eps=1e-06, weight_decay=0)
     elif args.optimizer == 'RMS':
         optimizer = optim.RMSprop(model.parameters(), lr=args.lr, alpha=0.99, eps=1e-08, weight_decay= 0 if args.weight_decay is None else args.weight_decay, momentum=args.momentum, centered=False)
     elif args.optimizer == 'Adam':
@@ -94,8 +93,6 @@ def train(args, model, device, checkpoint):
         scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode= 'min', verbose= True, patience= 8)
     elif args.plateau == 'accuracy':
         scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode= 'max', verbose= True, patience= 8)
-    elif args.plateau == 'cyclic':
-        scheduler = CyclicLR(optimizer, base_lr=0.0001, max_lr=0.01, step_size=10, mode='triangular')
 
     print("\nReducing learning rate on %s plateau\n" % (args.plateau))
 
